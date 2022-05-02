@@ -23,9 +23,35 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper (matrix) 
+{
+  let field = matrix.map(row => row.slice()); //Танцы с бубном помогли узнать что и [...array] и .slice() делают неглубокую копию массива, для копирования внутренних нужно делать map!!!
+  for (let i=0; i<field.length; i++) 
+  {
+    for (let j=0; j<field[i].length; j++) 
+    {
+      field[i][j]=0;
+    }
+  }
+  for (let i=0; i<field.length; i++) 
+  {
+    console.log(matrix[i]);
+    for (let j=0; j<field[i].length; j++) 
+    {
+      console.log(matrix[i][j]);
+      console.log(field[i][j]);
+      if(matrix[i][j]==true&&matrix[i-1]!=undefined&&matrix[i-1][j-1]!=undefined) field[i-1][j-1]++; 
+      if(matrix[i][j]==true&&matrix[i-1]!=undefined&&matrix[i-1][j]!=undefined) field[i-1][j]++; 
+      if(matrix[i][j]==true&&matrix[i-1]!=undefined&&matrix[i-1][j+1]!=undefined) field[i-1][j+1]++; 
+      if(matrix[i][j]==true&&matrix[i]!=undefined&&matrix[i][j-1]!=undefined) field[i][j-1]++; 
+      if(matrix[i][j]==true&&matrix[i]!=undefined&&matrix[i][j+1]!=undefined) field[i][j+1]++; 
+      if(matrix[i][j]==true&&matrix[i+1]!=undefined&&matrix[i+1][j-1]!=undefined) field[i+1][j-1]++; 
+      if(matrix[i][j]==true&&matrix[i+1]!=undefined&&matrix[i+1][j]!=undefined) field[i+1][j]++; 
+      if(matrix[i][j]==true&&matrix[i+1]!=undefined&&matrix[i+1][j+1]!=undefined) field[i+1][j+1]++; 
+      console.log(field[i][j]);
+    }
+  }
+  return field;
 }
 
 module.exports = {

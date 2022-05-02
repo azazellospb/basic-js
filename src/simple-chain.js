@@ -6,25 +6,40 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 const chainMaker = {
   getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.need.length;
   },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  addLink: function(value) {
+    if (value===null) this.need[this.need.length]='null';
+    if (typeof(value)=='boolean' || (typeof(value)=='number' && value!=Infinity)) this.need[this.need.length]=String(value);
+    if (Object.prototype.toString.call(value)=='[object Object]') this.need[this.need.length]='[object Object]';
+    if (value===Infinity) this.need[this.need.length]='Infinity';
+    if (typeof(value)=='string') this.need[this.need.length]=value;
+    if (typeof(value)=='function') this.need[this.need.length]='function () { }';
+    return this;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  removeLink: function(position) {
+    if (position>0 && position<=this.need.length && Number.isInteger(position)) {
+    this.need.splice(position-1, 1);
+    return this;}
+    else 
+    {
+      this.need=[];
+      throw new Error('You can\'t remove incorrect link!');
+    }
   },
-  reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  reverseChain: function() {
+    this.need.reverse();
+    return this;
   },
   finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    this.need.splice(this.need.length-1, 1, this.need[this.need.length-1] + ' )');
+    this.need.splice(0, 1, '( '+this.need[0]);
+    let a=this.need.join(' )~~( ');
+    this.need=[];
+    return a;
+
+  },
+  need:[],
 };
 
 module.exports = {
